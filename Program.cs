@@ -1,15 +1,3 @@
-﻿/*
-
-TODO
-
-Make room grid
-Give each room coordinates
-Give room a type it can be (fountain room, pit room, entrance/exit)
-Add player movement
-Add color to text based upon action
-
-*/
-
 Game game = new Game();
 game.Begin();
 
