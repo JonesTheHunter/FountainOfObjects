@@ -1,3 +1,6 @@
+
+
+
 Game game = new Game();
 game.Begin();
 
@@ -142,6 +145,10 @@ public class Player
             Name = Console.ReadLine();
             if(Text.IsAlpha(Name!))
             {
+                if(Name == "guid")
+                {
+                    Name = Guid.NewGuid().ToString();
+                }
                 Console.WriteLine($"Are you sure you want to choose {Name}? Type \'y\' or \'n\' to confirm: ");
                 userInput = Console.ReadLine();
                 
@@ -218,6 +225,7 @@ public class Player
                         Console.WriteLine("You can't leave just yet!");
                         continue;
                     }
+                case "activate":    
                 case "activate fountain":
                     if(CurrentDungeon.PlayerInFountainRoom() && !CurrentDungeon.FountainActive)
                     {
@@ -230,9 +238,11 @@ public class Player
                         Console.WriteLine("You cannot do that right now!");
                         continue;
                     }
+                case "deactivate":
                 case "deactivate fountain":
                     if(CurrentDungeon.PlayerInFountainRoom() && CurrentDungeon.FountainActive)
                     {
+                        CurrentDungeon.FountainActive = false;
                         Console.WriteLine($"You deactivate the fountain, immediately feeling a cosmic sense of confusion and dissapointment.");
                         break;
                     }
@@ -426,17 +436,17 @@ public class Room
     public static Room CreateSpawnRoom(int x, int y) => new Room(x, y, "You are in the spawn room.", Type.SpawnRoom);
 
     public static Room[,] CreateFourByFourDungeonv1() => new Room[4,4] {
-                                          { CreateEmptyRoom(3,0), CreateEmptyRoom(3,1), CreateEmptyRoom(3,2), CreateEmptyRoom(3,3) },
-                                          { CreateEmptyRoom(2,0), CreateEmptyRoom(2,1), CreateFountainRoom(2,2), CreateEmptyRoom(2,3) },
-                                          { CreateEmptyRoom(1,0), CreateEmptyRoom(1,1), CreateEmptyRoom(1,2), CreateEmptyRoom(1,3) },
-                                          { CreateSpawnRoom(0,0), CreateEmptyRoom(0,1), CreateEmptyRoom(0,2), CreateEmptyRoom(0,3) }
+                                          { CreateEmptyRoom(0,3), CreateEmptyRoom(1,3), CreateEmptyRoom(2,3), CreateEmptyRoom(3,3) },
+                                          { CreateEmptyRoom(0,2), CreateEmptyRoom(1,2), CreateFountainRoom(2,2), CreateEmptyRoom(3,2) },
+                                          { CreateEmptyRoom(0,1), CreateEmptyRoom(1,1), CreateEmptyRoom(2,1), CreateEmptyRoom(3,1) },
+                                          { CreateSpawnRoom(0,0), CreateEmptyRoom(1,0), CreateEmptyRoom(2,0), CreateEmptyRoom(3,0) }
                                                                     };
 
         public static Room[,] CreateFourByFourDungeonv2() => new Room[4,4] {
-                                          { CreateEmptyRoom(3,0), CreateEmptyRoom(3,1), CreateSpawnRoom(3,2), CreateEmptyRoom(3,3) },
-                                          { CreateEmptyRoom(2,0), CreateEmptyRoom(2,1), CreateFountainRoom(2,2), CreateEmptyRoom(2,3) },
-                                          { CreateEmptyRoom(1,0), CreateEmptyRoom(1,1), CreateEmptyRoom(1,2), CreateEmptyRoom(1,3) },
-                                          { CreateEmptyRoom(0,0), CreateEmptyRoom(0,1), CreateEmptyRoom(0,2), CreateEmptyRoom(0,3) }
+                                          { CreateEmptyRoom(0,3), CreateEmptyRoom(1,3), CreateEmptyRoom(2,3), CreateEmptyRoom(3,3) },
+                                          { CreateEmptyRoom(0,2), CreateEmptyRoom(1,2), CreateEmptyRoom(2,2), CreateEmptyRoom(3,2) },
+                                          { CreateEmptyRoom(0,1), CreateEmptyRoom(1,1), CreateEmptyRoom(2,1), CreateEmptyRoom(3,1) },
+                                          { CreateSpawnRoom(0,0), CreateEmptyRoom(1,0), CreateEmptyRoom(2,0), CreateFountainRoom(3,0) }
                                                                     };
     public enum Type
     {
