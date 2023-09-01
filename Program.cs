@@ -13,6 +13,7 @@ public class Game
         CurrentDungeon = new Dungeon(Room.CreateFourByFourDungeonv2(), CurrentPlayer);
         CurrentTurn = new TurnTimer();
         CurrentPlayer.SetDungeon(CurrentDungeon);
+        CurrentPlayer.SetTurnTimer(CurrentTurn);
     }
     public void Begin()
     {
@@ -89,6 +90,7 @@ public class Player
 {
     public string? Name { get; set; }
     public Dungeon CurrentDungeon { get; set; }
+    public TurnTimer CurrentTurnTimer { get; set; }
     public int X { get; set; }
     public int Y { get; set ;}
 
@@ -118,6 +120,11 @@ public class Player
         X = x;
         Y = y;
 
+    }
+
+    public void SetTurnTimer(TurnTimer turnTimer)
+    {
+        CurrentTurnTimer = turnTimer;
     }
 
     public void SetDungeon(Dungeon dungeon)
@@ -223,6 +230,17 @@ public class Player
                         Console.WriteLine("You cannot do that right now!");
                         continue;
                     }
+                case "deactivate fountain":
+                    if(CurrentDungeon.PlayerInFountainRoom() && CurrentDungeon.FountainActive)
+                    {
+                        Console.WriteLine($"You deactivate the fountain, immediately feeling a cosmic sense of confusion and dissapointment.");
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("You can't do that.");
+                        continue;
+                    }
                 default:
                     Console.WriteLine("Not a valid choice. Try again.");
                     continue;
@@ -236,6 +254,7 @@ public class Player
         if(IsOutOfBounds())
         {
             Y--;
+            CurrentTurnTimer.CurrentTurn--;
             Console.WriteLine($"There appears to be a stone wall here");
         } 
     }
@@ -246,6 +265,7 @@ public class Player
         if(IsOutOfBounds())
         {
             Y++;
+            CurrentTurnTimer.CurrentTurn--;
             Console.WriteLine($"There appears to be a stone wall here");
         } 
     } 
@@ -255,6 +275,7 @@ public class Player
         if(IsOutOfBounds())
         {
             X--;
+            CurrentTurnTimer.CurrentTurn--;
             Console.WriteLine($"There appears to be a stone wall here");
         } 
     }
@@ -265,6 +286,7 @@ public class Player
         if(IsOutOfBounds())
         {
             X++;
+            CurrentTurnTimer.CurrentTurn--;
             Console.WriteLine($"There appears to be a stone wall here");
         } 
     } 
